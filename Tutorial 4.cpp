@@ -1,51 +1,74 @@
 #include <iostream>
 using namespace std;
 
-void accept(int &, int []);
-void display(int, int []);
-void bubbleSort(int, int []);
-void swapElements(int &, int &);
+class complex {
+    float real, img;
 
-int main() {
-    int n, array[10];
+public:
+    void accept(float r, float i) {
+        real = r;
+        img = i;
+    }
 
-    accept(n, array);
-    bubbleSort(n, array);
-
-    cout << "\nSorted Array:";
-    display(n, array);
-
-    return 0;
-}
-
-void accept(int &m, int arr1[]) {
-    cout << "\nEnter size of array: ";
-    cin >> m;
-
-    cout << "\nEnter array elements:\n";
-
-    for (int i = 0; i < m; i++)
-        cin >> arr1[i];
-}
-
-void display(int m, int arr1[]) {
-    for (int k = 0; k < m; k++)
-        cout << arr1[k] << " ";
-}
-
-void swapElements(int &a, int &b) {
-    int temp = a;
-
-    a = b;
-    b = temp;
-}
-
-void bubbleSort(int n, int arr[]) {
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - 1 - i; j++) {
-            if (arr[j] > arr[j + 1]) {
-                swapElements(arr[j], arr[j + 1]);
-            }
+    void display() {
+        if (img >= 0) {
+            cout << real << " + " << img << "i";
+        } else {
+            cout << real << " - " << -img << "i";
         }
     }
+
+    void add(complex c1, complex c2) {
+        real = c1.real + c2.real;
+        img = c1.img + c2.img;
+    }
+
+    void sub(complex c1, complex c2) {
+        real = c1.real - c2.real;
+        img = c1.img - c2.img;
+    }
+
+    void mult(complex c1, complex c2) {
+        real = (c1.real * c2.real) - (c1.img * c2.img);
+        img = (c1.real * c2.img) + (c1.img * c2.real);
+    }
+
+    void divide(complex c1, complex c2) {
+        float denominator = (c2.real * c2.real) + (c2.img * c2.img);
+        real = (c1.real * c2.real + c1.img * c2.img) / denominator;
+        img = (c1.img * c2.real - c1.real * c2.img) / denominator;
+    }
+};
+
+int main() {
+    complex c1, c2, c3, c4, c5, c6;
+
+    c1.accept(2, -6);
+    c2.accept(4, 10);
+
+    cout << "c1 = ";
+    c1.display();
+
+    cout << "\nc2 = ";
+    c2.display();
+
+    c3.add(c1, c2);
+    cout << "\n\nAddition: ";
+    c3.display();
+
+    c4.sub(c1, c2);
+    cout << "\nSubtraction: ";
+    c4.display();
+
+    c5.mult(c1, c2);
+    cout << "\nMultiplication: ";
+    c5.display();
+
+    c6.divide(c1, c2);
+    cout << "\nDivision: ";
+    c6.display();
+
+    cout << endl;
+
+    return 0;
 }
