@@ -13,8 +13,8 @@ int main() {
         }
     }
 
-    cout << "Sum of even numbers bet 1 to 50 :" << sum_even << endl;
-    cout << "Sum of odd numbers bet 1 to 50 :" << sum_odd << endl;
+    cout << "Sum of even numbers between 1 to 50 :" << sum_even << endl;
+    cout << "Sum of odd numbers between 1 to 50 :" << sum_odd << endl;
 
     return 0;
 }
