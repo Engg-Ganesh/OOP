@@ -1,98 +1,77 @@
-//Write a program in C++ to implement String class. Write constructors, destructor, accept function and display function.
 #include <iostream>
+#include <cstring>
 using namespace std;
 
-class Complex
-{
-    float real, imag;
+class MyString {
+    char *data;                        
 
 public:
 
-    // Default constructor
-    Complex()
-    {
-        real = 0;
-        imag = 0;
+    MyString() {
+        data = new char[1];
+        data[0] = '\0';
     }
 
-    // Parameterized constructor
-    Complex(float r, float i)
-    {
-        real = r;
-        imag = i;
+    MyString(const char *str) {
+        data = new char[strlen(str) + 1];   
+        strcpy(data, str);
     }
 
-    // Display the complex number
-    void display()
-    {
-        cout << real;
-
-        if (imag >= 0)
-            cout << " + " << imag << "i";
-        else
-            cout << " - " << -imag << "i";
-
-        cout << endl;
+ 
+    MyString(const MyString &other) {
+        data = new char[strlen(other.data) + 1];
+        strcpy(data, other.data);
     }
 
-    // Overload + operator
-    Complex operator+(Complex c)
-    {
-        return Complex(real + c.real, imag + c.imag);
+ 
+    MyString &operator=(const MyString &other) {
+        if (this != &other) {              
+            char *temp = new char[strlen(other.data) + 1];
+            strcpy(temp, other.data);
+            delete[] data;             
+            data = temp;
+        }
+        return *this;
     }
 
-    // Overload - operator
-    Complex operator-(Complex c)
-    {
-        return Complex(real - c.real, imag - c.imag);
+ 
+    ~MyString() {
+        delete[] data;
     }
 
-    // Overload * operator
-    Complex operator*(Complex c)
-    {
-        return Complex(
-            real * c.real - imag * c.imag,
-            real * c.imag + imag * c.real
-        );
+    void accept() {
+        char buffer[1000];
+        cin.getline(buffer, sizeof(buffer));
+        delete[] data;                    
+        data = new char[strlen(buffer) + 1];
+        strcpy(data, buffer);
     }
 
-    // Overload / operator
-    Complex operator/(Complex c)
-    {
-        float denominator = c.real * c.real + c.imag * c.imag;
 
-        return Complex(
-            (real * c.real + imag * c.imag) / denominator,
-            (imag * c.real - real * c.imag) / denominator
-        );
+    void display() const {
+        cout << data;
     }
 };
 
-int main()
-{
-    Complex c1(5, 6), c2(2, 8), result;
+int main() {
+    MyString s1;                        
+    cout << "Enter a string: ";
+    s1.accept();
 
-    cout << "First complex number: ";
-    c1.display();
+    MyString s2("Object Oriented Programming");
+    MyString s3(s2);                      
 
-    cout << "Second complex number: ";
-    c2.display();
+    cout << "s1 = ";
+    s1.display();
+    cout << endl;
 
-    result = c1 + c2;
-    cout << "\nAddition: ";
-    result.display();
+    cout << "s2 = ";
+    s2.display();
+    cout << endl;
 
-    result = c1 - c2;
-    cout << "Subtraction: ";
-    result.display();
-
-    result = c1 * c2;
-    cout << "Multiplication: ";
-    result.display();
-
-    result = c1 / c2;
-    cout << "Division: ";
-    result.display();
+    cout << "s3 (copy of s2) = ";
+    s3.display();
+    cout << endl;
 
     return 0;
 }
